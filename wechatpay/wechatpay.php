@@ -60,14 +60,14 @@ class WechatPay extends PaymentModule
 
         $this->limited_currencies = array("AED","AFN","ALL","AMD","AOA","ANG","ARS","AUD","AWG","AZN","BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BOV","BRL","BSD","BTN","BWP","BYR","BZD","CAD","CDF","CHF","CLP","CNY","COP","CRC","CUP","CUC","CVE","CZK","DJF","DKK","DOP","DZD","EUR","EGP","ERN","ETB","FJD","FKP","GBP","GEL","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","INR","IQD","IRR","ISK","JMD","JOD","JPY","KES","KGS","KHR","KMF","KRW","KPW","KWD","KYD","KZT","LAK","LBP","LKR","LRD","LSL","LYD","MAD","MDL","MGA","MRO","MKD","MMK","MNT","MOP","MUR","MVR","MWK","MXN","MYR","MZN","NAD","NGN","NIO","NOK","NPR","NZD","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SEK","SGD","SHP","SLL","SOS","SRD","SSP","STD","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TWD","TZS","UAH","UGX","USD","UYU","UZS","VEF","VND","VUV","WST","XAF","XCD","XOF","XPF","XSU","YER","ZAR","ZMW");
 
-        $this->displayName = $this->trans('Wechat Pay', array(), 'Modules.WechatPay.Admin');
-        $this->description = $this->trans('Accept payments for your products via Wechat Pay.', array(), 'Modules.WechatPay.Admin');
-        $this->confirmUninstall = $this->trans('Are you sure about removing these details?', array(), 'Modules.WechatPay.Admin');
+        $this->displayName = $this->trans('WeChat Pay', array(), 'Modules.Wechatpay.Shop');
+        $this->description = $this->trans('Accept payments for your products via Wechat Pay.', array(), 'Modules.Wechatpay.Admin');
+        $this->confirmUninstall = $this->trans('Are you sure about removing these details?', array(), 'Modules.Wechatpay.Admin');
         if (!isset($this->owner) || !isset($this->details) || !isset($this->address)) {
-            $this->warning = $this->trans('Account owner and account details must be configured before using this module.', array(), 'Modules.WechatPay.Admin');
+            $this->warning = $this->trans('Account owner and account details must be configured before using this module.', array(), 'Modules.Wechatpay.Admin');
         }
         if (!count(Currency::checkPaymentCurrencies($this->id))) {
-            $this->warning = $this->trans('No currency has been set for this module.', array(), 'Modules.WechatPay.Admin');
+            $this->warning = $this->trans('No currency has been set for this module.', array(), 'Modules.Wechatpay.Admin');
         }
     }
 
@@ -186,7 +186,7 @@ class WechatPay extends PaymentModule
 
         $newOption = new PaymentOption();
         $newOption->setModuleName($this->name)
-                ->setCallToActionText($this->trans('微信支付', array(), 'Modules.WechatPay.Shop'))
+                ->setCallToActionText($this->l('WeChat Pay'))
                 ->setAction($this->context->link->getModuleLink($this->name, 'validation', array(), true))
                 ->setAdditionalInformation($this->fetch('module:wechatpay/views/templates/hook/payment_execution.tpl'));
         $payment_options = [
@@ -305,7 +305,7 @@ class WechatPay extends PaymentModule
 
     		$timestamp = date('Y-m-d H:i:s');
         // $timestamp = date('2019-09-20 21:33:05');
-    		$orderID = $this->generateRandomString()."&".$cart->id."&".$currency_contex->id."&".$customer->secure_key;
+    		$orderID = $this->generateRandomString().$this->generateRandomString()."&".$cart->id."&".$currency_contex->id."&".$customer->secure_key;
     		$currency = new Currency((int)$cart->id_currency);
     		$currency = $currency->iso_code;
     		$access_id = Configuration::get('WECHATPAY_MODULO_ACCESS_ID');
@@ -317,7 +317,7 @@ class WechatPay extends PaymentModule
     		$config = array (
     			//id assigned by por Starpay
     			'access_id' => $access_id,
-    			//transaction type(see documentation)
+    			//action type(see documentation)
     			'type' => "2003",
     			//default version is 1.0
     			'version' => "1.0",
@@ -369,7 +369,7 @@ class WechatPay extends PaymentModule
 
   		$timestamp = date('Y-m-d H:i:s');
   		//$timestamp = date('2019-09-26 13:55:05');
-  		$orderID = $this->generateRandomString()."&".$cart->id."&".$currency_contex->id."&".$customer->secure_key;
+  		$orderID = $this->generateRandomString().$this->generateRandomString()."&".$cart->id."&".$currency_contex->id."&".$customer->secure_key;
   		$currency = new Currency((int)$cart->id_currency);
   		$currency = $currency->iso_code;
   		$access_id = Configuration::get('WECHATPAY_MODULO_ACCESS_ID');
@@ -456,23 +456,23 @@ class WechatPay extends PaymentModule
                   'input' => array(
                     	array(
   						'type' => 'text',
-  						'label' => $this->l('Numero de acceso'),
-  						'desc' => $this->l('Access ID'),
+  						'label' => $this->l('Access ID'),
+  						'desc' => $this->l('Access ID provided by Starpay'),
   						'hint' => $this->l('A123121213'),
   						'name' => 'access_id',
   						'lang' => false,
                      	),
   				    array(
   						'type' => 'text',
-  						'label' => $this->l('Número del comercio'),
-  						'desc' => $this->l('Merchant Access Number'),
+  						'label' => $this->l('Merchant Access Number'),
+  						'desc' => $this->l('Merchant Access Number provided by Starpay'),
   						'hint' => $this->l('B553121213'),
   						'name' => 'merchantAccessNo',
   						'lang' => false,
   					),
   					array(
   						'type' => 'text',
-  						'label' => $this->l('Número de Tienda'),
+  						'label' => $this->l('Store Number'),
   						'desc' => $this->l('Store Number'),
   						'hint' => $this->l('000'),
   						'name' => 'storeNo',
@@ -480,7 +480,7 @@ class WechatPay extends PaymentModule
   					  ),
                      	array(
   						'type' => 'textarea',
-  						'label' => $this->l('Clave Privada'),
+  						'label' => $this->l('Private Key'),
   						'desc' => $this->l('Private Key'),
   						'hint' => $this->l('-----BEGIN RSA PRIVATE KEY-----'),
   						'name' => 'app_private_key',

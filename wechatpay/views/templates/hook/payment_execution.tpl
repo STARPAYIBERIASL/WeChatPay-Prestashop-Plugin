@@ -47,36 +47,36 @@
 
 <section>
 
-<h2>{l s='Order summary' mod='Wechatpay'}</h2>
+<h2>{l s='Order summary' mod='wechatpay'}</h2>
 
 <input type="hidden" id='url' value="{$url}">
 
 {if isset($nbProducts) && $nbProducts <= 0}
-	<p class="warning">{l s='Your shopping cart is empty.' mod='Wechatpay'}</p>
+	<p class="warning">{l s='Your shopping cart is empty.' mod='wechatpay'}</p>
 {else}
   <div class="box cheque-box">
-    <h3>{l s='Check payment' mod='Wechatpay'}</h3>
+    <h3>{l s='WeChat payment' mod='wechatpay'}</h3>
 
     <p style="margin-top:20px;">
-			- {l s='The total amount of your order comes to:' mod='Wechatpay'}
+			- {l s='The total amount of your order comes to:' mod='wechatpay'}
 			<span id="amount" class="price">{$total}</span>
       {if $use_taxes == 1}
-        {l s='(tax incl.)' mod='Wechatpay'}
+        {l s='(tax incl.)' mod='wechatpay'}
       {/if}
 		</p>
     <p>
 			-
 			<!-- {if isset($currencies) && $currencies|@count > 1}
-				{l s='We accept several currencies to receive payments by check.' mod='Wechatpay'}
+				{l s='We accept several currencies to receive payments by WeChat.' mod='wechatpay'}
 				<br /><br />
-				{l s='Choose one of the following:' mod='Wechatpay'}
+				{l s='Choose one of the following:' mod='wechatpay'}
 				<select id="currency_payement" name="currency_payement" onchange="setCurrency($('#currency_payement').val());">
 				{foreach from=$currencies item=currency}
 					<option value="{$currency.id_currency}" {if isset($currencies) && $currency.id_currency == $cust_currency}selected="selected"{/if}>{$currency.name}</option>
 				{/foreach}
 				</select>
 			{else} -->
-				{l s='We allow the following currencies to be sent by check:' mod='Wechatpay'}&nbsp;<b>{$currencies.0.iso_code}</b>
+				{l s='We allow the following currencies to be sent by WeChat:' mod='wechatpay'}&nbsp;<b>{$currencies.0.iso_code}</b>
 				<input type="hidden" name="currency_payement" value="{$currencies.0.id_currency}" />
 			<!-- {/if} -->
 		</p>
@@ -95,9 +95,9 @@
           <div><input type="submit" id="btn_submit" class="exclusive_pay" name="btn_submit" value="Pay Order" /></div>
         </form>
       {elseif $qr_code == false}
-        <p class="alert alert-danger">{l s="Something happened, check the Wechat Pay's module settings" mod='Wechatpay'}</p>
+        <p class="alert alert-danger">{l s="Something happened, check the Wechat Pay's module settings" mod='wechatpay'}</p>
       {else}
-        <img src="{$qr_code}" alt="{l s='Pay with my payment module' mod='Wechatpay'}" />
+        <img src="{$qr_code}" alt="{l s='Pay with my payment module' mod='wechatpay'}" />
       {/if}
     </p>
   </div>
@@ -128,7 +128,7 @@
   //
   //   // $('input[name=payment-option]').click(function() {
   //   //   console.log($('label[for='+$(this).attr('id')+']').text().trim());
-  //   //   if ($('label[for='+$(this).attr('id')+']').text().trim() === '微信支付'){
+  //   //   if ($('label[for='+$(this).attr('id')+']').text().trim() === 'Pago de WeChat'){
   //   //     $('#conditions-to-approve').css('display', 'none');
   //   //     $('.ps-shown-by-js').find('button').css('display', 'none');
   //   //   }
